@@ -6,20 +6,39 @@ const qrCode = document.getElementById('qrCode');
 const downloadBtn = document.getElementById('downloadBtn');
 const error = document.getElementById('error');
 
-// Update character count
+let debounceTimer = null;
+
+// Update character count and generate QR in real-time
 textInput.addEventListener('input', () => {
   charCount.textContent = textInput.value.length;
   hideError();
+  
+  // Real-time QR generation with debounce (300ms delay)
+  const text = textInput.value.trim();
+  if (text) {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => {
+      generateQR(text);
+    }, 300);
+  } else {
+    // Clear QR when input is empty
+    qrCode.innerHTML = '';
+    qrContainer.classList.add('hidden');
+  }
 });
 
 // Generate QR code
-generateBtn.addEventListener('click', generateQR);
-
-function generateQR() {
+generateBtn.addEventListener('click', () => {
   const text = textInput.value.trim();
-  
-  if (!text) {
+  if (text) {
+    generateQR(text);
+  } else {
     showError('Please enter some text or URL');
+  }
+});
+
+function generateQR(text) {
+  if (!text) {
     return;
   }
   
@@ -68,6 +87,6 @@ function hideError() {
 // Allow Enter key to generate (with Ctrl/Cmd)
 textInput.addEventListener('keydown', (e) => {
   if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-    generateQR();
+    generateQR(textInput.value.trim());
   }
 });
