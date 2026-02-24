@@ -104,6 +104,7 @@ textarea::placeholder {
 .qr-container {
   margin-top: 30px;
   text-align: center;
+  position: relative;
 }
 
 .qr-container.hidden {
@@ -122,47 +123,28 @@ textarea::placeholder {
   display: block;
 }
 
-/* Flare/Glow animation for QR code when appearing */
-@keyframes flare {
-  0% {
-    opacity: 0;
-    transform: scale(0.5);
-    box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
-  }
-  30% {
-    opacity: 1;
-    transform: scale(1.1);
-    box-shadow: 0 0 30px 10px rgba(102, 126, 234, 0.4);
-  }
-  50% {
-    transform: scale(0.95);
-    box-shadow: 0 0 20px 5px rgba(102, 126, 234, 0.3);
-  }
-  70% {
-    transform: scale(1.02);
-    box-shadow: 0 0 15px 3px rgba(102, 126, 234, 0.2);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-    box-shadow: 0 0 5px 0 rgba(102, 126, 234, 0);
-  }
+/* Particle explosion effect */
+#particleContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 10;
+  width: 0;
+  height: 0;
 }
 
-/* Sparkle particles */
-@keyframes sparkle {
-  0%, 100% { opacity: 0; transform: scale(0); }
-  50% { opacity: 1; transform: scale(1); }
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  opacity: 0;
 }
 
-#qrCode.animate-pop {
-  animation: flare 0.6s ease-out forwards;
-}
-
-/* QR Code shake animation class */
-#qrCode.animate-shake {
-  animation: flare 0.6s ease-out forwards;
-}
+/* Particle shoot animation - each particle has unique keyframes set via JS */
 
 .error {
   margin-top: 16px;

@@ -62,10 +62,8 @@ function generateQR(text) {
     qrCode.appendChild(canvas);
     qrContainer.classList.remove('hidden');
     
-    // Trigger flare animation for lifeful effect
-    qrCode.classList.remove('animate-pop', 'animate-shake');
-    void qrCode.offsetWidth; // Force reflow to restart animation
-    qrCode.classList.add('animate-pop');
+    // Trigger particle explosion effect
+    createParticleExplosion();
   });
 }
 
@@ -95,3 +93,56 @@ textInput.addEventListener('keydown', (e) => {
     generateQR(textInput.value.trim());
   }
 });
+
+// Particle explosion effect
+function createParticleExplosion() {
+  const particleContainer = document.getElementById('particleContainer');
+  particleContainer.innerHTML = ''; // Clear old particles
+  
+  const particleCount = 20;
+  const colors = ['#667eea', '#764ba2', '#a855f7', '#ec4899', '#f472b6'];
+  
+  for (let i = 0; i < particleCount; i++) {
+    const particle = document.createElement('div');
+    particle.className = 'particle';
+    
+    // Random direction and distance
+    const angle = (Math.random() * 360) * (Math.PI / 180);
+    const distance = 80 + Math.random() * 100; // 80-180px
+    const duration = 0.4 + Math.random() * 0.4; // 0.4-0.8s
+    
+    // Random color from gradient colors
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    particle.style.background = color;
+    
+    // Create unique keyframes for this particle
+    const keyframes = `
+      @keyframes shoot${i} {
+        0% {
+          opacity: 1;
+          transform: translate(-50%, -50%) scale(1);
+        }
+        100% {
+          opacity: 0;
+          transform: translate(calc(-50% + ${Math.cos(angle) * distance}px), calc(-50% + ${Math.sin(angle) * distance}px)) scale(0);
+        }
+      }
+    `;
+    
+    // Add keyframes to document
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = keyframes;
+    document.head.appendChild(styleSheet);
+    
+    // Set animation with random delay
+    particle.style.animation = `shoot${i} ${duration}s ease-out forwards`;
+    particle.style.animationDelay = `${Math.random() * 0.1}s`;
+    
+    particleContainer.appendChild(particle);
+  }
+  
+  // Clean up particles after animation
+  setTimeout(() => {
+    particleContainer.innerHTML = '';
+  }, 1000);
+}
