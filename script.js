@@ -61,6 +61,12 @@ function generateQR(text) {
     
     qrCode.appendChild(canvas);
     qrContainer.classList.remove('hidden');
+    
+    // Trigger animations for lifeful effect
+    qrCode.classList.remove('animate-shake', 'animate-pop');
+    void qrCode.offsetWidth; // Force reflow to restart animation
+    qrCode.classList.add('animate-pop');
+    setTimeout(() => qrCode.classList.add('animate-shake'), 400);
   });
 }
 
