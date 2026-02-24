@@ -97,28 +97,34 @@ textInput.addEventListener('keydown', (e) => {
 // Particle explosion effect
 function createParticleExplosion() {
   const particleContainer = document.getElementById('particleContainer');
+  const qrCodeElement = document.getElementById('qrCode');
   particleContainer.innerHTML = ''; // Clear old particles
   
-  const particleCount = 30; // More particles
-  const colors = ['#667eea', '#764ba2', '#a855f7', '#ec4899', '#f472b6', '#fbbf24', '#34d399'];
+  // Shake the QR code
+  qrCodeElement.style.animation = 'qrShake 0.5s ease-in-out';
+  setTimeout(() => { qrCodeElement.style.animation = ''; }, 500);
+  
+  const particleCount = 40; // Even more particles
+  const colors = ['#667eea', '#764ba2', '#a855f7', '#ec4899', '#f472b6', '#fbbf24', '#34d399', '#f472b6'];
   
   for (let i = 0; i < particleCount; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
     
-    // Bigger particles - 10-16px
-    const size = 10 + Math.random() * 6;
+    // Much bigger particles - 14-24px
+    const size = 14 + Math.random() * 10;
     particle.style.width = size + 'px';
     particle.style.height = size + 'px';
     
-    // Larger distance - 150-250px
+    // Much larger distance - 200-350px
     const angle = (Math.random() * 360) * (Math.PI / 180);
-    const distance = 150 + Math.random() * 100;
-    const duration = 0.5 + Math.random() * 0.5; // 0.5-1s
+    const distance = 200 + Math.random() * 150;
+    const duration = 0.6 + Math.random() * 0.6; // 0.6-1.2s
     
     // Random color
     const color = colors[Math.floor(Math.random() * colors.length)];
     particle.style.background = color;
+    particle.style.boxShadow = `0 0 ${size/2}px ${color}`;
     
     // Create unique keyframes for this particle
     const keyframes = `
@@ -141,7 +147,7 @@ function createParticleExplosion() {
     
     // Set animation
     particle.style.animation = `shoot${i} ${duration}s ease-out forwards`;
-    particle.style.animationDelay = `${Math.random() * 0.15}s`;
+    particle.style.animationDelay = `${Math.random() * 0.1}s`;
     
     particleContainer.appendChild(particle);
   }
