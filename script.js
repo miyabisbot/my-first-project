@@ -99,19 +99,24 @@ function createParticleExplosion() {
   const particleContainer = document.getElementById('particleContainer');
   particleContainer.innerHTML = ''; // Clear old particles
   
-  const particleCount = 20;
-  const colors = ['#667eea', '#764ba2', '#a855f7', '#ec4899', '#f472b6'];
+  const particleCount = 30; // More particles
+  const colors = ['#667eea', '#764ba2', '#a855f7', '#ec4899', '#f472b6', '#fbbf24', '#34d399'];
   
   for (let i = 0; i < particleCount; i++) {
     const particle = document.createElement('div');
     particle.className = 'particle';
     
-    // Random direction and distance
-    const angle = (Math.random() * 360) * (Math.PI / 180);
-    const distance = 80 + Math.random() * 100; // 80-180px
-    const duration = 0.4 + Math.random() * 0.4; // 0.4-0.8s
+    // Bigger particles - 10-16px
+    const size = 10 + Math.random() * 6;
+    particle.style.width = size + 'px';
+    particle.style.height = size + 'px';
     
-    // Random color from gradient colors
+    // Larger distance - 150-250px
+    const angle = (Math.random() * 360) * (Math.PI / 180);
+    const distance = 150 + Math.random() * 100;
+    const duration = 0.5 + Math.random() * 0.5; // 0.5-1s
+    
+    // Random color
     const color = colors[Math.floor(Math.random() * colors.length)];
     particle.style.background = color;
     
@@ -134,9 +139,9 @@ function createParticleExplosion() {
     styleSheet.textContent = keyframes;
     document.head.appendChild(styleSheet);
     
-    // Set animation with random delay
+    // Set animation
     particle.style.animation = `shoot${i} ${duration}s ease-out forwards`;
-    particle.style.animationDelay = `${Math.random() * 0.1}s`;
+    particle.style.animationDelay = `${Math.random() * 0.15}s`;
     
     particleContainer.appendChild(particle);
   }
@@ -144,5 +149,5 @@ function createParticleExplosion() {
   // Clean up particles after animation
   setTimeout(() => {
     particleContainer.innerHTML = '';
-  }, 1000);
+  }, 1500);
 }

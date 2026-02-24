@@ -137,11 +137,10 @@ textarea::placeholder {
 
 .particle {
   position: absolute;
-  width: 6px;
-  height: 6px;
   border-radius: 50%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   opacity: 0;
+  /* Size is set by JS */
 }
 
 /* Particle shoot animation - each particle has unique keyframes set via JS */
